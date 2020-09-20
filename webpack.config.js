@@ -44,13 +44,30 @@ const cssLoader = extra => {
     return loader
 }
 
+const babelOptions = preset => {
+    const opts = {
+        presets: [
+            '@babel/preset-env'
+        ],
+        plugins: [
+            '@babel/plugin-proposal-class-properties'
+        ]
+    }
+
+    if (preset) {
+        opts.presets.push(preset)
+    }
+
+    return opts
+}
+
 console.log(isDev)
 console.log(isProd)
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
     entry: {
-        main: ['@babel/polyfill', './index.js'],
+        main: ['@babel/polyfill', './index.jsx'],
         analytics: './analytics.js',
     },
     output: {
@@ -118,11 +135,15 @@ module.exports = {
                 exclude: /node-modules/,
                 loader: {
                     loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            '@babel/preset-env'
-                        ]
-                    }
+                    options: babelOptions()
+                }
+            },
+            {
+                test: /\.jsx$/,
+                exclude: /node-modules/,
+                loader: {
+                    loader: 'babel-loader',
+                    options: babelOptions('@babel/preset-react')
                 }
             }
         ]
