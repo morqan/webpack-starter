@@ -6,6 +6,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 
+
+
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = !isDev
 const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`
@@ -87,6 +89,7 @@ module.exports = {
         port: 4200,
         hot: isDev
     },
+    devtool: isDev ? 'source-map': '' ,
     optimization: optimization(),
     plugins: [
         new HTMLWebpackPlugin({
